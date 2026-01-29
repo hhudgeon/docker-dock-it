@@ -14,10 +14,10 @@ services:
       #- ./db/data:/var/lib/mysql
       - ./db/init:/docker-entrypoint-initdb.d
     environment:
-      MARIADB_ROOT_PASSWORD: "supersecret"
-      MARIADB_DATABASE: "world"
-      MARIADB_USER: "example"
-      MARIADB_PASSWORD: "example"
+      MARIADB_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+      MARIADB_DATABASE: "${DB_DATABASE}"
+      MARIADB_USER: "${DB_USER}"
+      MARIADB_PASSWORD: "${DB_USER}"
 
   web:
     # build specifies the location of a custom Dockerfile
@@ -31,16 +31,16 @@ services:
       - ./conf/php/php.ini:/usr/local/etc/php/conf.d/php.ini
       - ./web/html:/var/www/html
     environment:
-      MYSQL_HOST: "db"
-      MYSQL_DATABASE: "world"
-      MYSQL_USER: "example"
-      MYSQL_PASSWORD: "example"
+      MYSQL_HOST: "${DB_HOST}"
+      MYSQL_DATABASE: "${DB_DATABASE}"
+      MYSQL_USER: "${DB_USER}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
 
   phpmyadmin:
     image: phpmyadmin
     ports:
       - 8080:80
     environment:
-      PMA_HOST: "db"
-      PMA_USER: "example"
-      PMA_PASSWORD: "example"
+      PMA_HOST: "${DB_HOST}"
+      PMA_USER: "${DB_USER}"
+      PMA_PASSWORD: "${DB_PASSWORD}"
