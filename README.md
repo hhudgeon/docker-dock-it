@@ -17,7 +17,7 @@ docker compose up -d
 
 ## Install and activate plugins
 ```shell
-docker exec -it docker-dock-it-wpcli-1 bash -c " 
+docker exec -it docker-author-site-wpcli-1 bash -c " 
 wp plugin delete hello akismet ; 
 wp plugin install blockart-blocks --version=2.0.3 --activate
 wp plugin install loco-translate --version=2.6.2 --activate
