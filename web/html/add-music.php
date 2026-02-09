@@ -20,7 +20,7 @@ $artists = mysqli_query($db, "SELECT artistId, artistName FROM myrecords__artist
 $labels = mysqli_query($db, "SELECT recordLabelId, recordLabelName FROM myrecords__recordLabel ORDER BY recordLabelName");
 $genres = mysqli_query($db, "SELECT genreId, genreName FROM myrecords__genres ORDER BY genreName");
 // For Add Track
-$recordFormats = mysqli_query($db, "SELECT recordId, format, year FROM myrecords__records ORDER BY format");
+$recordFormats = mysqli_query($db, "SELECT recordId, format FROM myrecords__records ORDER BY format");
 
 // For Add Album (only records with recordName)
 $namedRecords = mysqli_query($db, "SELECT recordId, recordName FROM myrecords__records WHERE recordName IS NOT NULL AND recordName != '' ORDER BY recordName");

@@ -1,9 +1,78 @@
 <?php
-include "includes/header.php";
 $pageTitle = "Login";
 
 // Determine which form to show (default to login)
 $view = $_GET['view'] ?? 'login';
+
+/**
+ * IMPORTANT:
+ * - includes/header.php outputs HTML (doctype, head, etc.)
+ * - so any session_regenerate_id() or header("Location: ...") MUST happen BEFORE including header.php *because holy errors if not.
+ *
+ * header.php also starts the session + loads $db via database.php, so I put it "early"
+ * but ONLY after handling redirects safely so it actually works.
+ * Thank you stackoverflow
+ */
+
+require_once "includes/database.php";
+require_once "includes/functions.php";
+session_name('myrecords');
+session_start();
+
+// -------------------------
+// LOGOUT (must be before HTML output)
+// -------------------------
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header("Location: music-login.php");
+    exit();
+}
+
+// -------------------------
+// LOGIN (must be before HTML output)
+// -------------------------
+$loginError = '';
+
+if (isset($_POST['login'])) {
+    $username = trim(strip_tags($_POST['username']));
+    $password = trim($_POST['password']);
+
+    $query = "SELECT userId, username, password, role FROM myrecords__users WHERE username = ?";
+    $stmt = mysqli_prepare($db, $query);
+    mysqli_stmt_bind_param($stmt, "s", $username);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_store_result($stmt);
+    mysqli_stmt_bind_result($stmt, $userId, $dbUsername, $hashedPassword, $role);
+
+    if (mysqli_stmt_fetch($stmt)) {
+        if (password_verify($password, $hashedPassword)) {
+            if (password_needs_rehash($hashedPassword, PASSWORD_DEFAULT)) {
+                $newHash = password_hash($password, PASSWORD_DEFAULT);
+                $updateQuery = "UPDATE myrecords__users SET password = ? WHERE userId = ?";
+                $updateStmt = mysqli_prepare($db, $updateQuery);
+                mysqli_stmt_bind_param($updateStmt, "si", $newHash, $userId);
+                mysqli_stmt_execute($updateStmt);
+            }
+
+            session_regenerate_id(true);
+            $_SESSION['authUser']['userId'] = $userId;
+            $_SESSION['authUser']['username'] = $dbUsername;
+            $_SESSION['authUser']['role'] = $role;
+
+            header('Location: welcome-user.php');
+            exit();
+        } else {
+            $loginError = 'Incorrect password. Please try again.';
+        }
+    } else {
+        $loginError = 'Username not found. Please try again.';
+    }
+}
+
+// -------------------------
+// NOW it’s safe to output HTML
+// -------------------------
+include "includes/header.php";
 ?>
 <div class="container login-container py-5 login-image">
     <div class="row">
@@ -72,49 +141,10 @@ $view = $_GET['view'] ?? 'login';
             <div class="col-12">
                 <div class="card shadow p-4 mx-auto" style="max-width: 500px;">
                     <h3 class="mb-4">Login</h3>
-                    <?php
-                    if (isset($_POST['login'])) {
-                        $username = trim(strip_tags($_POST['username']));
-                        $password = trim($_POST['password']);
 
-                        $query = "SELECT userId, username, password, role FROM myrecords__users WHERE username = ?";
-                        $stmt = mysqli_prepare($db, $query);
-                        mysqli_stmt_bind_param($stmt, "s", $username);
-                        mysqli_stmt_execute($stmt);
-                        mysqli_stmt_store_result($stmt);
-                        mysqli_stmt_bind_result($stmt, $userId, $dbUsername, $hashedPassword, $role);
-
-                        if (mysqli_stmt_fetch($stmt)) {
-                            if (password_verify($password, $hashedPassword)) {
-                                if (password_needs_rehash($hashedPassword, PASSWORD_DEFAULT)) {
-                                    $newHash = password_hash($password, PASSWORD_DEFAULT);
-                                    $updateQuery = "UPDATE myrecords__users SET password = ? WHERE userId = ?";
-                                    $updateStmt = mysqli_prepare($db, $updateQuery);
-                                    mysqli_stmt_bind_param($updateStmt, "si", $newHash, $userId);
-                                    mysqli_stmt_execute($updateStmt);
-                                }
-
-                                session_regenerate_id();
-                                $_SESSION['authUser']['userId'] = $userId;
-                                $_SESSION['authUser']['username'] = $dbUsername;
-                                $_SESSION['authUser']['role'] = $role;
-
-                                header('Location: welcome-user.php');
-                                exit();
-                            } else {
-                                echo '<div class="alert alert-danger">Incorrect password. Please try again.</div>';
-                            }
-                        } else {
-                            echo '<div class="alert alert-danger">Username not found. Please try again.</div>';
-                        }
-                    }
-
-                    if (isset($_GET['logout'])) {
-                        session_destroy();
-                        header("Location: music-login.php");
-                        exit();
-                    }
-                    ?>
+                    <?php if (!empty($loginError)): ?>
+                        <div class="alert alert-danger"><?= $loginError ?></div>
+                    <?php endif; ?>
 
                     <?php if (isset($_SESSION['authUser'])): ?>
                         <form method="get">
@@ -133,6 +163,7 @@ $view = $_GET['view'] ?? 'login';
                             </div>
                         </form>
                     <?php endif; ?>
+
                     <p class="mt-3 text-center">Don't have an account? <a href="?view=signup">Sign up here</a></p>
                 </div>
             </div>

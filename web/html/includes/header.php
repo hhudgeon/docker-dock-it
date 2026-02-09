@@ -1,7 +1,10 @@
 <?php
 // Start session and connect to DB
-session_name('myrecords');
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_name('myrecords');
+    session_start();
+}
+
 /**
  * @var mysqli $db Database Connection
  */
