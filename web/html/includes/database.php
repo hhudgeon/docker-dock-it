@@ -1,8 +1,8 @@
 <?php
-$db = @mysqli_connect(
-	getenv('MYSQL_HOST'),
-    getenv('MYSQL_USER'),
-    getenv('MYSQL_PASSWORD'),
-    getenv('MYSQL_DATABASE')
+$db = mysqli_connect(
+    getenv('DB_HOST'),
+    getenv('DB_USER'),
+    getenv('DB_PASSWORD'),
+    getenv('DB_DATABASE')
 ) or die('Error connecting to database');
-		//or die('Error connecting to database: ' . mysqli_connect_error()); // for debugging
+

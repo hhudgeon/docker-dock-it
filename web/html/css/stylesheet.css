@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Cherry+Cream+Soda&family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: "Figtree", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    background-image:
+            linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)),
+            url('../images/record_tile_02.png');
+    background-repeat: repeat;
+    background-position: top left;
+    background-size: auto;
+}
+
+.container {
+    flex: 1;
+}
+
+* {
+    font-family: "Jost", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
+
+h1, .fancyfont {
+    font-family: "Cherry Cream Soda", system-ui;
+    font-weight: 400;
+    font-style: normal;
+}
+
+h1 {
+    background-color: white;
+    padding: 0.5em 1em;
+    border-radius: 1em;
+    display: inline-block;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: #333;
+    outline: 2px solid rgba(0, 0, 0, 0.2); /* Soft gray outline */
+    outline-offset: 4px;
+}
+
+.p-bg {
+    background-color: white;
+    padding: 0.5em 1em;
+    border-radius: 1em;
+    display: inline-block;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: #333;
+    outline: 2px solid rgba(0, 0, 0, 0.2); /* Soft gray outline */
+    outline-offset: 4px;
+}
+
+.home-body {
+    background-image:
+            linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)),
+            url('../images/psy_bg_01.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.home-wrapper {
+    padding-top: 4rem; /* Pushes card down from the very top */
+}
+
+.home-card {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 3rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+    .home-card {
+        padding: 2rem;
+    }
+}
+
+
+.full-height-center {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-image {
+    background: url('../images/record_player_01.jpg') no-repeat center center fixed;
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login-container .card {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.album-body {
+    background: url('../images/record_player_02.gif') no-repeat center center fixed;
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.album-card {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 2rem;
+    max-width: 95%;
+    width: 1000px;
+    margin: 2rem auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+@media (max-width: 768px) {
+    .album-card {
+        width: 95%;
+        padding: 1rem;
+    }
+}
+
+.records-body {
+    background: url('../images/psy_bg_01.png') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+}
+
+.table-wrapper {
+    background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.my-background {
+    background: #F56565;
+    background: -webkit-linear-gradient(180deg, rgba(245, 101, 101, 1) 65%, rgba(247, 242, 242, 1) 82%, rgba(250, 250, 250, 1) 100%);
+    background: -moz-linear-gradient(180deg, rgba(245, 101, 101, 1) 65%, rgba(247, 242, 242, 1) 82%, rgba(250, 250, 250, 1) 100%);
+    background: linear-gradient(180deg, rgba(245, 101, 101, 1) 65%, rgba(247, 242, 242, 1) 82%, rgba(250, 250, 250, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#F56565", endColorstr="#FAFAFA", GradientType=0);
+}
+
+.tab-content {
+    background-color: white;
+    padding: 2em;
+    border-radius: 1em;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
