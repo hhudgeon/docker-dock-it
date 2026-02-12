@@ -1,31 +1,29 @@
-# Author Site Demo
- 
-## Create .env file
+# WordPress Docker Final — Author Site
+
+Hi! This repo is my WordPress Development final running in Docker.  
+Everything needed to launch the site is included, including a clean database snapshot with localhost URLs. It should boot up ready-to-use without extra setup.
+
+---
+
+## Setup
+
+First create your environment file:
+
 ```shell
 cp -n .env.example .env
 ```
-... and update variables. 
 
-You should also create a __separate mount/volume__ to create a new database unless you have backup/init scripts setup.
+Then start Docker:
 
-## Launch environment
-
-Execute the docker-compose.yml file: 
 ```shell
 docker compose up -d
 ```
 
-## Install and activate plugins
-```shell
-docker exec -it docker-author-site-wpcli-1 bash -c " 
-wp plugin delete hello akismet ; 
-wp plugin install blockart-blocks --version=2.0.3 --activate
-wp plugin install loco-translate --version=2.6.2 --activate
-wp plugin install health-check query-monitor everest-forms --activate ;  
-wp plugin activate mailhog ;
-wp theme activate zakra ;
-wp theme delete twentytwentythree twentytwentyfour twentytwentyfive;"
-```
+On first launch, Docker automatically imports the database from `db/init`, so the site loads fully configured.
+
+---
+
+## Access the Site
 
 ### WordPress
 <http://localhost>
@@ -36,37 +34,76 @@ wp theme delete twentytwentythree twentytwentyfour twentytwentyfive;"
 ### MailHog
 <http://localhost:8025>
 
-## WP CLI
-You can run a single command:
-```shell
-docker exec -it docker-dock-it-wpcli-1 wp user list
-```
-or login via the terminal:
-```shell
-docker exec -it docker-dock-it-wpcli-1 bash
-```
-or open the WPCLI terminal in Docker Desktop
+---
 
-## Todo
-We have received a few bug reports regarding PHP errors. We have discovered that the issue only exists in certain versions. We will use Docker and WPCLI to quickly change versions and test.
-1. Test the site with different versions of PHP/WP. 
-   1. Stop containers.
-   2. Update .env file to use PHP-7.3 and WP-5.8
-   3. If we change the WP version with Docker, we need to reset WordPress files. __MAKE SURE YOU ARE IN THE RIGHT FOLDER!!!__
-      ```shell
-      rm -rf wordpress/
-      git checkout HEAD wordpress
-      ```
-      (Discuss how this would be different with separate mount points for plugins, themes, etc)
-   4. Reset WordPress database (optional).
-   5. Start containers and run WP CLI commands.
-   6. Try PHP-8.0 and WP-6.0 (works)
-   7. Update Blockart plugin (Fatal error)
-   8. Check Blockart version: https://wordpress.org/plugins/blockart-blocks/#developers
-   9. Try PHP 8.1 and WP-6.0 (Deprecated error)
-   10. Check WP and PHP compatibility: https://make.wordpress.org/core/handbook/references/php-compatibility-and-wordpress-versions/
-   11. Try PHP 8.2 and WP-6.7
-2. Modify some content and create new backup.
+## Demo Login (for grading)
 
-## Lab
-Start Docker-WPD Final Homework
+```
+Username: hhudgeon
+Password: watterson
+```
+
+These are generic credentials since this repository is public.
+
+---
+
+## Theme
+
+The site uses my custom child theme:
+
+**astrahobbes** (child of **astra**)
+
+WP-CLI commands if activation is needed:
+
+```shell
+docker compose exec wpcli wp theme activate astrahobbes
+docker compose exec wpcli wp theme list
+```
+
+---
+
+## Required Plugins
+
+These plugins are active and included in the database snapshot:
+
+- hh-books-reviews
+- health-check
+- loco-translate
+- query-monitor
+
+If plugins ever need to be reinstalled:
+
+```shell
+docker compose exec wpcli wp plugin install health-check --activate
+docker compose exec wpcli wp plugin install loco-translate --activate
+docker compose exec wpcli wp plugin install query-monitor --activate
+docker compose exec wpcli wp plugin activate hh-books-reviews
+```
+
+To confirm active plugins:
+
+```shell
+docker compose exec wpcli wp plugin list --status=active
+```
+
+---
+
+## Optional Reset Test
+
+If you want to verify the database snapshot works from scratch:
+
+```shell
+docker compose down -v
+docker compose up -d
+```
+
+WordPress should restart fully configured.
+
+---
+
+## Notes
+
+- Database includes sanitized credentials
+- URLs are configured for localhost
+- Media uploads are included
+- No manual WordPress setup required  
