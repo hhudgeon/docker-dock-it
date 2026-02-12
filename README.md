@@ -7,10 +7,26 @@ Everything needed to launch the site is included, including a clean database sna
 
 ## Setup
 
+## Setup
+
 First create your environment file:
 
 ```shell
 cp -n .env.example .env
+```
+
+Next, open `.env` and fill in the required database values (they must not be blank):
+
+```
+DB_USER=wordpress
+DB_PASSWORD=wordpress
+DB_ROOT_PASSWORD=localroot
+```
+
+If you are using the included database snapshot, confirm the table prefix matches:
+
+```
+WP_TABLE_PREFIX=wpdfinal25__
 ```
 
 Then start Docker:
@@ -20,6 +36,7 @@ docker compose up -d
 ```
 
 On first launch, Docker automatically imports the database from `db/init`, so the site loads fully configured.
+
 
 ---
 
