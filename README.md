@@ -7,8 +7,6 @@ Everything needed to launch the site is included, including a clean database sna
 
 ## Setup
 
-## Setup
-
 First create your environment file:
 
 ```shell
@@ -23,7 +21,7 @@ DB_PASSWORD=wordpress
 DB_ROOT_PASSWORD=localroot
 ```
 
-If you are using the included database snapshot, confirm the table prefix matches:
+If you are using the included database snapshot, confirm the table prefix matches (this is super important and it won't work with out it):
 
 ```
 WP_TABLE_PREFIX=wpdfinal25__
