@@ -1,0 +1,648 @@
+/**
+ * Theme Name: Astrahobbes
+ * Template: astra
+ * Author: Heather Hudgeon
+ * Text Domain: astrahobbes
+ * Version: 1.0.0
+ */
+
+/* ===========================
+   BASE PALETTE & TYPOGRAPHY
+   =========================== */
+:root {
+    --ink: #1c1c1c;        /* thick line color (Calvin & Hobbes ink) */
+    --paper: #f6efe6;      /* warm paper background */
+    --paper-card: #ffffff; /* sheet color */
+    --accent: #375775;     /* dark blue */
+    --sunwash: #42baed;    /* watercolor wash hint */
+
+    --font-heading: "Barriecito", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-body: "Comic Neue", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Body text: Comic Neue (normal weight; headings own boldness) */
+body {
+    color: var(--ink);
+    margin: 0;
+    line-height: 1.6;
+    font-family: var(--font-body), sans-serif;
+    font-weight: 600;
+}
+/* Let post content inherit rather than re-declaring font */
+.entry-content { font: inherit; }
+
+/* Page titles + headings (default = Barriecito sitewide) */
+.entry-title,
+.site-title a,
+.entry-content h1,
+.entry-content h2,
+.entry-content h3,
+.entry-content h4 {
+    font-family: var(--font-heading), sans-serif;
+    font-weight: 600;
+}
+
+/* Links */
+a {
+    color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+.entry-content img { border-radius: 8px; }
+
+/* Headings = ink */
+.entry-title,
+.entry-content h1 { color: var(--ink) !important; }
+
+/* ===========================
+   HOMEPAGE / GLOBAL PANELS
+   (applies to common container blocks)
+   =========================== */
+.entry-content > :is(.wp-block-group,
+                     .wp-block-columns,
+                     .wp-block-cover,
+                     .wp-block-media-text,
+                     .wp-block-quote,
+                     .wp-block-pullquote,
+                     .wp-block-table,
+                     .wp-block-gallery) {
+    background: var(--paper-card);
+    border: 8px solid var(--ink);     /* thick panel frame */
+    border-radius: 14px;
+    box-shadow: 10px 12px 0 rgba(0,0,0,.22);
+    padding: 24px 24px 48px;          /* EXTRA bottom padding */
+    margin: 22px 0;
+    position: relative;
+}
+
+/* Keep panel borders inside on wide/full (unfortunately !important is needed sometimes) */
+.entry-content > :is(.wp-block-group,
+                     .wp-block-columns,
+                     .wp-block-cover,
+                     .wp-block-media-text).alignwide,
+.entry-content > :is(.wp-block-group,
+                     .wp-block-columns,
+                     .wp-block-cover,
+                     .wp-block-media-text).alignfull {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    max-width: 100% !important;
+    width: auto !important;
+    box-sizing: border-box;
+}
+
+/* Prevent parents from clipping borders if anything still spills */
+.ast-container,
+.site-content,
+.entry-content,
+.ast-separate-container .site-content,
+.wp-block-columns {
+    overflow: visible !important;
+}
+
+/* Media & Text: tidy -crossed fingers- */
+.entry-content .wp-block-media-text {
+    background: var(--paper-card);
+    border: 4px solid var(--ink);
+    border-radius: 12px;
+    box-shadow: 6px 8px 0 rgba(0,0,0,.15);
+}
+.entry-content .wp-block-media-text__content { padding: 16px; }
+.wp-block-media-text__content > *:last-child { margin-bottom: 0; }
+
+/* Quotes / testimonials: elevated feel */
+.entry-content :is(.wp-block-quote, .wp-block-pullquote,
+                   .wp-block-uagb-testimonial, [class*="uagb-testimonial"]) {
+    border-radius: 14px;
+    box-shadow: 0 18px 36px rgba(0,0,0,.32);
+}
+.entry-content .wp-block-quote {
+    border-left: 8px solid var(--ink) !important;
+    box-sizing: border-box;
+}
+.entry-content blockquote p {
+    font-size: 1.1rem;
+    text-align: left;
+}
+
+/* Buttons — chunky & playful */
+.wp-block-button .wp-block-button__link,
+button,
+input[type="submit"],
+.ast-button {
+    background: var(--sunwash);
+    font-family: var(--font-heading), sans-serif;
+    color: #fff;
+    border: 4px solid var(--ink);
+    border-radius: 12px;
+    padding: 10px 18px;
+    box-shadow: 6px 8px 0 rgba(0,0,0,.25);
+    font-weight: 700;
+}
+.wp-block-button .wp-block-button__link:hover,
+button:hover,
+input[type="submit"]:hover,
+.ast-button:hover {
+    filter: brightness(1.05);
+    transform: translate(-1px, -1px);
+    border: 4px solid var(--ink);
+}
+
+/* --- Clear space under Astra Transparent Header (all screens) --- */
+body.ast-transparent-header .site-content,
+body.ast-theme-transparent-header .site-content,
+body.ast-transparent-header #content,
+body.ast-theme-transparent-header #content,
+body.ast-transparent-header .ast-separate-container .site-content .ast-container,
+body.ast-theme-transparent-header .ast-separate-container .site-content .ast-container {
+    padding-top: 96px;
+}
+
+/* Astra's mobile breakpoint is 921px */
+@media (max-width: 921px){
+    body.ast-header-break-point.ast-transparent-header .site-content,
+    body.ast-header-break-point.ast-theme-transparent-header .site-content,
+    body.ast-header-break-point.ast-transparent-header #content,
+    body.ast-header-break-point.ast-theme-transparent-header #content,
+    body.ast-header-break-point.ast-transparent-header .ast-separate-container .site-content .ast-container,
+    body.ast-header-break-point.ast-theme-transparent-header .ast-separate-container .site-content .ast-container {
+        padding-top: 72px; /* mobile header height; tweak if needed */
+    }
+}
+/* --- WordPress admin bar adjustments (logged-in view only) --- */
+/* WP sets html{margin-top} on small screens; neutralize it and fix the bar that likes to float*/
+@media (max-width: 782px){
+    html { margin-top: 0 !important; }
+    #wpadminbar { position: fixed; }
+}
+
+/* Add admin bar height on top of your offsets when logged in */
+@media (min-width: 783px){ /* ~32px desktop admin bar */
+    body.admin-bar.ast-transparent-header .site-content,
+    body.admin-bar.ast-theme-transparent-header .site-content,
+    body.admin-bar.ast-transparent-header #content,
+    body.admin-bar.ast-theme-transparent-header #content,
+    body.admin-bar.ast-transparent-header .ast-separate-container .site-content .ast-container,
+    body.admin-bar.ast-theme-transparent-header .ast-separate-container .site-content .ast-container {
+        padding-top: calc(96px + 32px);
+    }
+}
+@media (max-width: 782px){ /* ~46px mobile admin bar */
+    body.admin-bar.ast-header-break-point.ast-transparent-header .site-content,
+    body.admin-bar.ast-header-break-point.ast-theme-transparent-header .site-content,
+    body.admin-bar.ast-header-break-point.ast-transparent-header #content,
+    body.admin-bar.ast-header-break-point.ast-theme-transparent-header #content,
+    body.admin-bar.ast-header-break-point.ast-transparent-header .ast-separate-container .site-content .ast-container,
+    body.admin-bar.ast-header-break-point.ast-theme-transparent-header .ast-separate-container .site-content .ast-container {
+        padding-top: calc(72px + 46px);
+    }
+}
+
+/* ===========================
+   HEADER & FOOTER LINES
+   =========================== */
+.site-header {
+    border-bottom: 6px solid var(--ink);
+    box-shadow: 0 8px 0 rgba(0,0,0,.12);
+}
+.site-footer {
+    border-top: 6px solid var(--ink);
+    box-shadow: 0 -8px 0 rgba(0,0,0,.12);
+    background: var(--paper-card);
+}
+
+/* ===========================
+   BACKGROUND WASH LAYERING
+   =========================== */
+html { background: var(--paper); }
+
+body {
+    background: transparent !important;  /* ensure wash shows */
+    position: relative;
+    z-index: 0;
+}
+
+/* Make Astra wrappers transparent so the wash shows */
+.site,
+#page,
+.hfeed,
+.site-content,
+.ast-container,
+.ast-separate-container,
+.ast-separate-container .site-content,
+.ast-separate-container .ast-article-single,
+.site-main,
+.content-area,
+#primary,
+#content,
+.ast-article-single,
+.ast-page-builder-template,
+.entry-content {
+    background: transparent !important;
+    box-shadow: none;
+}
+
+/* The watercolor wash */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background:
+            radial-gradient(1200px 500px at -15% -10%, #88e4f4, transparent 62%),
+            radial-gradient(1000px 420px  at 115% -5%, #d4f39e, transparent 68%),
+            radial-gradient(900px 420px   at 105% 95%, #ffb6b3, transparent 64%),
+            radial-gradient(820px 360px   at 10% 110%, #f3edc0, transparent 66%),
+            radial-gradient(520px 220px   at 40% 20%, #edd197, transparent 70%),
+            radial-gradient(480px 200px   at 70% 30%, #c1dc80, transparent 72%),
+            radial-gradient(460px 200px   at 30% 80%, #e498a3, transparent 72%);
+    background-repeat: no-repeat;
+    pointer-events: none;
+}
+
+/* ===========================
+   BOOK SINGLE TEMPLATE
+   =========================== */
+
+/* Hide theme entry meta on Book singles only */
+body.single-hh-book :is(.entry-meta, .posted-on, .byline) { display: none; }
+
+/* GLOBAL hh-panel — used everywhere*/
+.hh-panel {
+    background: var(--paper-card);
+    border: 8px solid var(--ink);
+    border-radius: 14px;
+    box-shadow: 10px 12px 0 rgba(0,0,0,.22);
+    padding: 24px 24px 48px;
+    margin: 22px 0;
+}
+.hh-panel--white { /* semantic hook */ }
+
+/* Archive card variant: same look, but border via ::after so it isn't clipped */
+.book-archive__item.hh-panel {
+    position: relative;
+    border: none;               /* prevent double border; ::after draws the frame */
+    background: var(--paper-card);
+    box-sizing: border-box;
+    margin: 0;                  /* spacing comes from .books-archive gap */
+}
+.book-archive__item.hh-panel::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 8px solid var(--ink);
+    border-radius: 14px;
+    pointer-events: none;
+}
+
+/* Panel 1 grid (single book hero) */
+.book-hero__grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* left: image/meta, right: title+content */
+    gap: 2rem;
+    align-items: start;
+}
+@media (max-width: 900px) {
+    .book-hero__grid { grid-template-columns: 1fr; }
+}
+
+/* Left column */
+.book-cover {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 4px solid var(--ink);
+    box-shadow: 6px 8px 0 rgba(0,0,0,.15);
+}
+.book-meta { margin-top: 1rem; }
+.book-meta__list { list-style: none; margin: 0; padding: 0; }
+.book-meta__item {
+    display: flex;
+    gap: .5rem;
+    padding: .35rem 0;
+    border-bottom: 1px dashed rgba(0,0,0,.08);
+}
+.book-meta__item:last-child { border-bottom: 0; }
+
+/* Book meta typography */
+.book-meta__label {
+    font-family: var(--font-heading), sans-serif; /* Barriecito */
+    font-weight: 700;
+    white-space: nowrap;
+}
+.book-meta__value {
+    font-family: var(--font-body), sans-serif;    /* Comic Neue */
+    font-weight: 400;
+    flex: 1 1 auto;
+}
+
+/* Right column */
+.book-hero__right .book-title { text-align: left; }
+.book-title {
+    margin: 0 0 1rem;
+    font-family: var(--font-heading);
+    font-size: 2.3rem;
+}
+
+.book-content > *:first-child { margin-top: 0; }
+
+/* Reviews inline under synopsis (mini comic panels) */
+.book-reviews-inline { margin-top: 2rem; }
+.reviews-title       { margin: 0 0 1rem; }
+.reviews-list        { display: grid; gap: 1rem; }
+
+.review-item {
+    background: var(--paper-card);
+    border: 5px solid var(--ink);
+    border-radius: 14px;
+    box-shadow: 8px 10px 0 rgba(0,0,0,.22);
+    padding: 1rem 1.25rem 1.25rem;
+}
+.review-item__header { margin-bottom: .5rem; }
+.review-item__title  { margin: 0 0 .25rem; font-family: var(--font-heading), sans-serif; }
+.review-item__meta   { font-size: .95rem; opacity: .85; }
+.review-item__content p:last-child { margin-bottom: 0; }
+.reviews-empty { opacity: .75; }
+
+/* Book page: switch key headings to Comic Neue (and bold) */
+body.single-hh-book :is( .book-content h1,
+                        .book-content h2,
+                        .review-item__title) {
+    font-family: var(--font-body), sans-serif !important; /* Comic Neue */
+    font-weight: 700;
+}
+
+/* Book page: make "Reviews" smaller + Barriecito */
+body.single-hh-book .reviews-title {
+    font-family: var(--font-heading), sans-serif !important; /* Barriecito */
+    font-weight: 600;
+    line-height: 1.2;
+    margin: 0 0 .75rem;
+}
+
+/* ===========================
+   BOOKS ARCHIVE (/books/)
+   =========================== */
+
+/* Archive header on its own row, with compact filter panel under H1 */
+body.post-type-archive-hh-book .archive-header {
+    float: none;
+    clear: both;
+    display: block;
+    width: 100%;
+    text-align: left;           /* removed bottom margin here */
+}
+
+/* H1 stays Barriecito */
+body.post-type-archive-hh-book .archive-title {
+    font-family: var(--font-heading), sans-serif;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Book Type panel (small) inside the header */
+.archive-header .book-type-panel {
+    /*max-width: 300px;*/
+    padding: 12px 14px;
+    margin: 8px 0 18px;
+}
+
+/* Only the filter labels/title use Comic Neue */
+.archive-header,
+.archive-header .book-type-filter__label {
+    font-family: var(--font-body), sans-serif;
+    font-weight: 700;
+}
+
+/* Vertical checkbox list */
+.book-type-panel__title {
+    margin: 0 0 8px;
+    font-family: var(--font-heading), sans-serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+.book-type-filter {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+}
+.book-type-filter__link {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    text-decoration: none;
+    color: var(--ink);
+}
+.book-type-filter__box {
+    width: 22px;
+    height: 22px;
+    background: var(--paper-card);
+    border: 6px solid var(--ink);
+    border-radius: 6px;
+    box-shadow: 3px 4px 0 rgba(0,0,0,.20);
+}
+.book-type-filter__link.is-active .book-type-filter__box { background: var(--sunwash); }
+
+/* Panel list uses grid so spacing comes from gap (no margin-collapse) */
+.books-archive {
+    display: grid;
+    gap: 36px;                 /* space between each panel */
+    margin: 24px 0 56px;       /* base vertical spacing; top will be normalized below */
+}
+
+/* contain floats so panels start below */
+body.post-type-archive-hh-book .archive-header {
+    display: flow-root;        /* keep */
+    /* no bottom margin here; global block handles it... hopefully */
+}
+body.post-type-archive-hh-book .archive-header .book-type-panel {
+    float: none;
+    display: inline-block;
+    margin: 8px 0 0;
+}
+body.post-type-archive-hh-book .books-archive {
+    clear: both;
+    margin-left: 100px;        /* keep left indent */
+    /* removed margin-top; global block handles the header/list gap */
+}
+
+/* Two-column layout inside each card: cover left, text right */
+.book-archive__grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+@media (max-width: 900px) {
+    .book-archive__grid { grid-template-columns: 1fr; }
+}
+
+/* Cover inherits the .book-cover “inked” look */
+.book-archive__coverlink { display: block; }
+.book-archive__cover     { display: block; width: 100%; height: auto; border-radius: 10px; }
+
+/* Title + excerpt */
+.book-archive__title {
+    margin: 0 0 .5rem;
+    line-height: 1.2;
+    font-family: var(--font-heading), sans-serif !important; /* Barriecito */
+    font-weight: 600;
+}
+.book-archive__title a { color: var(--ink); text-decoration: none; }
+.book-archive__title a:hover { text-decoration: underline; }
+.book-archive__excerpt p { margin: 0 0 1rem; }
+.book-archive__readmore-wrap { margin: 0; }
+
+/* Pagination (Barriecito boxes) */
+.books-pagination {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0 80px;
+}
+.books-pagination .page-numbers {
+    display: flex;
+    gap: 12px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.books-pagination .page-numbers a,
+.books-pagination .page-numbers span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    padding: .25rem .75rem;
+    font-family: var(--font-heading), sans-serif; /* Barriecito */
+    font-weight: 600;
+    color: var(--ink);
+    background: var(--paper-card);
+    border: 6px solid var(--ink);
+    border-radius: 12px;
+    box-shadow: 6px 8px 0 rgba(0,0,0,.20);
+    text-decoration: none;
+}
+.books-pagination .page-numbers .current { background: #fefcf8; }
+.books-pagination .page-numbers a:hover  { transform: translate(-1px, -1px); }
+.books-pagination :is(.prev, .next)      { min-width: 44px; }
+
+/* ===========================
+   BOOK TYPE TAXONOMY (same look as Books archive)
+   =========================== */
+
+/* Center the heading like the Books archive */
+body.tax-hh_book_type .archive-header {
+    margin: 0;
+}
+body.tax-hh_book_type .archive-title {
+    margin: 0;
+    font-family: var(--font-heading), sans-serif;
+    font-weight: 600;
+}
+
+/* “No books” panel */
+body.tax-hh_book_type .no-books { /*max-width: 720px;*/ margin: 20px; text-align: left; }
+body.tax-hh_book_type .no-books__title {
+    font-family: var(--font-heading), sans-serif;
+    font-weight: 600;
+    font-size: 1.6rem;
+    margin: 0 0 .35rem;
+}
+body.tax-hh_book_type .no-books__text {
+    font-family: var(--font-body), sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* Taxonomy heading split */
+body.tax-hh_book_type .archive-title { margin: 0; line-height: 1.1; }
+body.tax-hh_book_type .archive-title__prefix {
+    font-family: var(--font-heading), sans-serif;  /* Barriecito */
+    font-weight: 600;
+}
+body.tax-hh_book_type .archive-title__term {
+    display: inline-block;
+    margin-left: .35rem;
+    font-family: var(--font-body), sans-serif;     /* Comic Neue */
+    font-weight: 700;
+    font-size: 0.72em;
+    vertical-align: baseline;
+}
+
+/* Optional: smaller, tidy term description under the title */
+body.tax-hh_book_type .taxonomy-description {
+    max-width: 720px;
+    margin: 8px auto 0;
+    font-family: var(--font-body), sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+/* Clear floats where needed */
+body:is(.post-type-archive-hh-book, .tax-hh_book_type, .tax-book-type) .books-archive { clear: both; }
+
+/* -----------------------------------------------------------
+   Book Type taxonomy archives (streamlined & merged)
+----------------------------------------------------------- */
+/* Breathing room + shared structures across both tax slugs */
+body:is(.tax-hh_book_type, .tax-book-type) .archive-header {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Card container replacing repeated article/grid styles */
+body:is(.tax-hh_book_type, .tax-book-type) .site-main > article,
+body:is(.tax-hh_book_type, .tax-book-type) .ast-row > article {
+    display: grid;
+    grid-template-columns: minmax(140px, 180px) 1fr; /* cover | text */
+    gap: 1.25rem;
+    align-items: start;
+
+    background: var(--paper-card);
+    border: 8px solid var(--ink);
+    border-radius: 14px;
+    box-shadow: 10px 12px 0 rgba(0,0,0,.22);
+
+    padding: 24px 24px 32px;
+    margin: 22px 0; /* << space between items */
+}
+
+/* Entry spacing */
+body:is(.tax-hh_book_type, .tax-book-type) .site-main > article .entry-header .entry-title {
+    margin: 0 0 .5rem;
+    line-height: 1.2;
+}
+
+body:is(.tax-hh_book_type, .tax-book-type) .site-main > article :is(.entry-content, .entry-summary)
+{
+    margin: 0 0 .75rem;
+}
+
+/* Thumb alignment */
+body:is(.tax-hh_book_type, .tax-book-type) .site-main > article :is(.post-thumb, .post-thumbnail) {
+    margin: 0;
+    align-self: start;
+}
+@media (max-width: 900px){
+    body:is(.tax-hh_book_type, .tax-book-type) .site-main > article { grid-template-columns: 1fr; }
+}
+
+/*SPACING IS GOING TO KILL ME*/
+
+
+/* === FINAL FORCE: header → list gap using padding (no margin games) === */
+
+/* Scope: /books/ and ALL /book-type/* */
+body:is(.post-type-archive-hh-book, .tax-hh_book_type, .tax-book-type) .archive-header {
+    display: flow-root !important;   /* isolates padding (no collapse) */
+    padding-bottom: 32px !important; /* << set your desired gap here */
+    margin-bottom: 0 !important;     /* header contributes via padding only */
+}
+
+
+
