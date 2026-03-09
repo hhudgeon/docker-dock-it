@@ -24,8 +24,21 @@ if ($books->have_posts()) {
 	// Loop through each book
 	while ($books->have_posts()) {
 		$books->the_post();
+		$publisher  = get_post_meta(get_the_ID(), 'hh_book_publisher', true);
+		$pub_date   = get_post_meta(get_the_ID(), 'hh_book_pub_date', true);
+		$format     = get_post_meta(get_the_ID(), 'hh_book_format', true);
+		$price      = get_post_meta(get_the_ID(), 'hh_book_price', true);
+		$isbn       = get_post_meta(get_the_ID(), 'hh_book_isbn', true);
+		$strip_notes = get_post_meta(get_the_ID(), 'hh_book_strip_notes', true);
 
 		echo '<div class="book-item">';
+
+		// Show the featured image if the book has one
+		if (has_post_thumbnail()) {
+			echo '<div class="book-cover">';
+			echo get_the_post_thumbnail(get_the_ID(), 'medium');
+			echo '</div>';
+		}
 
 		// Book title that links to the single book page
 		echo '<h3><a href="' . get_permalink() . '">' . get_the_title() . '</a></h3>';
@@ -33,10 +46,18 @@ if ($books->have_posts()) {
 		// Short description (excerpt) of the book
 		echo '<p>' . get_the_excerpt() . '</p>';
 
+		// Output the custom meta fields for each book
+		echo '<p><strong>Publisher:</strong> ' . esc_html($publisher) . '</p>';
+		echo '<p><strong>Publication date:</strong> ' . esc_html($pub_date) . '</p>';
+		echo '<p><strong>Format:</strong> ' . esc_html($format) . '</p>';
+		echo '<p><strong>Price:</strong> $' . esc_html($price) . '</p>';
+		echo '<p><strong>ISBN:</strong> ' . esc_html($isbn) . '</p>';
+		echo '<p><strong>Strip notes:</strong> ' . esc_html($strip_notes) . '</p>';
+
 		echo '</div>';
 	}
 
-	// Reset the global post data so other queries on the page don't break *cross fingers*
+	// Reset the global post data so other queries on the page do not break
 	wp_reset_postdata();
 
 } else {
