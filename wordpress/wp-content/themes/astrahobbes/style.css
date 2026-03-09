@@ -644,5 +644,97 @@ body:is(.post-type-archive-hh-book, .tax-hh_book_type, .tax-book-type) .archive-
     margin-bottom: 0 !important;     /* header contributes via padding only */
 }
 
+/* ===========================
+   DYNAMIC BOOKS BLOCK
+   =========================== */
 
+.hh-books-block__list {
+    display: grid;
+    gap: 28px;
+    margin: 24px 0 56px;
+}
+
+.hh-books-block__card {
+    margin: 0;
+    padding: 24px;
+}
+
+.hh-books-block__grid {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.hh-books-block__media {
+    width: 160px;
+}
+
+.hh-books-block__coverlink {
+    display: block;
+}
+
+.hh-books-block__cover {
+    display: block;
+    width: 100%;
+    max-width: 160px;
+    height: auto;
+}
+
+.hh-books-block__content {
+    min-width: 0;
+}
+
+.hh-books-block__title {
+    margin: 0 0 .5rem;
+    line-height: 1.2;
+    font-family: var(--font-heading), sans-serif;
+    font-weight: 600;
+}
+
+.hh-books-block__title a {
+    color: var(--ink);
+    text-decoration: none;
+}
+
+.hh-books-block__title a:hover {
+    text-decoration: underline;
+}
+
+.hh-books-block__excerpt {
+    margin-bottom: 1rem;
+}
+
+.hh-books-block__excerpt p {
+    margin: 0;
+}
+
+.hh-books-block__meta {
+    margin-top: 0;
+}
+
+.hh-books-block__title a {
+    color: var(--ink);
+    text-decoration: none;
+    transition: all .15s ease;
+}
+
+.hh-books-block__title a:hover {
+    text-decoration: underline;
+    color: var(--accent);
+}
+
+@media (max-width: 700px) {
+    .hh-books-block__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hh-books-block__media {
+        width: 100%;
+    }
+
+    .hh-books-block__cover {
+        max-width: 180px;
+    }
+}
 
