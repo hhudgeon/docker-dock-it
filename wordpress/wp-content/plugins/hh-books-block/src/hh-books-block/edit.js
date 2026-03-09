@@ -33,7 +33,7 @@ export default function Edit() {
 	return (
 		<p { ...useBlockProps() }>
 			{ __(
-				'Hh Books Block – hello from the editor!',
+				'Hh Books Block – this block will display all of the books currently on this site',
 				'hh-books-block'
 			) }
 		</p>

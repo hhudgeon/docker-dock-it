@@ -9,7 +9,7 @@ return array(
 		'title' => 'Hh Books Block',
 		'category' => 'widgets',
 		'icon' => 'book',
-		'description' => 'Example block scaffolded with Create Block tool.',
+		'description' => 'Displays all Books custom post entries in a dynamic card layout.',
 		'example' => array(
 			
 		),
