@@ -23,6 +23,8 @@
 # … except our stuff.
 !/wordpress/wp-content/plugins/mailhog.php
 !/wordpress/wp-content/plugins/hh-books-reviews
+!/wordpress/wp-content/plugins/hh-books-block
+/wordpress/wp-content/plugins/hh-books-block/node_modules/
 !/wordpress/wp-content/themes/zakra
 !/wordpress/wp-content/themes/astra
 !/wordpress/wp-content/themes/astrahobbes
