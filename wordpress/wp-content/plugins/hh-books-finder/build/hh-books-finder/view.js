@@ -25,25 +25,23 @@ function App(props) {
   let [searchTerm, setSearchTerm] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   let [sortOrder, setSortOrder] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("asc");
   let [currentPage, setCurrentPage] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1);
+  let [totalPages, setTotalPages] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1);
   let [loading, setLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
-  const booksPerPage = 5;
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    fetch("/wp-json/wp/v2/hh-book?_embed&orderby=title&order=asc").then(response => response.json()).then(data => {
+    setLoading(true);
+    let apiURL = `/wp-json/wp/v2/hh-book?_embed&per_page=5&page=${currentPage}&orderby=title&order=${sortOrder}`;
+    if (searchTerm) {
+      apiURL += `&search=${encodeURIComponent(searchTerm)}`;
+    }
+    fetch(apiURL).then(response => {
+      let pages = response.headers.get("X-WP-TotalPages");
+      setTotalPages(Number(pages) || 1);
+      return response.json();
+    }).then(data => {
       setBooks(data);
       setLoading(false);
     });
-  }, []);
-  let filteredBooks = books.filter(book => book.title.rendered.toLowerCase().includes(searchTerm.toLowerCase()));
-  let sortedBooks = [...filteredBooks].sort((a, b) => {
-    if (sortOrder === "asc") {
-      return a.title.rendered.localeCompare(b.title.rendered);
-    } else {
-      return b.title.rendered.localeCompare(a.title.rendered);
-    }
-  });
-  const startIndex = (currentPage - 1) * booksPerPage;
-  const paginatedBooks = sortedBooks.slice(startIndex, startIndex + booksPerPage);
-  const totalPages = Math.ceil(sortedBooks.length / booksPerPage);
+  }, [currentPage, sortOrder, searchTerm]);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
     className: "book-finder",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h3", {
@@ -81,11 +79,11 @@ function App(props) {
         })]
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("p", {
-      children: ["Showing ", paginatedBooks.length, " books"]
+      children: ["Showing ", books.length, " books"]
     }), loading ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
       children: "Loading books..."
     }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_BookList__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      items: paginatedBooks
+      items: books
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
       className: "book-pagination",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {

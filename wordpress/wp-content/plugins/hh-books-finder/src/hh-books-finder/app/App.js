@@ -6,34 +6,29 @@ export default function App(props) {
 	let [searchTerm, setSearchTerm] = useState("");
 	let [sortOrder, setSortOrder] = useState("asc");
 	let [currentPage, setCurrentPage] = useState(1);
+	let [totalPages, setTotalPages] = useState(1);
 	let [loading, setLoading] = useState(true);
 
-	const booksPerPage = 5;
-
 	useEffect(() => {
-		fetch("/wp-json/wp/v2/hh-book?_embed&orderby=title&order=asc")
-			.then((response) => response.json())
+		setLoading(true);
+
+		let apiURL = `/wp-json/wp/v2/hh-book?_embed&per_page=5&page=${currentPage}&orderby=title&order=${sortOrder}`;
+
+		if (searchTerm) {
+			apiURL += `&search=${encodeURIComponent(searchTerm)}`;
+		}
+
+		fetch(apiURL)
+			.then((response) => {
+				let pages = response.headers.get("X-WP-TotalPages");
+				setTotalPages(Number(pages) || 1);
+				return response.json();
+			})
 			.then((data) => {
 				setBooks(data);
 				setLoading(false);
 			});
-	}, []);
-
-	let filteredBooks = books.filter((book) =>
-		book.title.rendered.toLowerCase().includes(searchTerm.toLowerCase())
-	);
-
-	let sortedBooks = [...filteredBooks].sort((a, b) => {
-		if (sortOrder === "asc") {
-			return a.title.rendered.localeCompare(b.title.rendered);
-		} else {
-			return b.title.rendered.localeCompare(a.title.rendered);
-		}
-	});
-
-	const startIndex = (currentPage - 1) * booksPerPage;
-	const paginatedBooks = sortedBooks.slice(startIndex, startIndex + booksPerPage);
-	const totalPages = Math.ceil(sortedBooks.length / booksPerPage);
+	}, [currentPage, sortOrder, searchTerm]);
 
 	return (
 		<div className="book-finder">
@@ -76,12 +71,12 @@ export default function App(props) {
 				</div>
 			</div>
 
-			<p>Showing {paginatedBooks.length} books</p>
+			<p>Showing {books.length} books</p>
 
 			{loading ? (
 				<p>Loading books...</p>
 			) : (
-				<BookList items={paginatedBooks} />
+				<BookList items={books} />
 			)}
 
 			<div className="book-pagination">
