@@ -25,6 +25,8 @@
 !/wordpress/wp-content/plugins/hh-books-reviews
 !/wordpress/wp-content/plugins/hh-books-block
 /wordpress/wp-content/plugins/hh-books-block/node_modules/
+!/wordpress/wp-content/plugins/hh-books-finder
+/wordpress/wp-content/plugins/hh-books-finder/node_modules/
 !/wordpress/wp-content/themes/zakra
 !/wordpress/wp-content/themes/astra
 !/wordpress/wp-content/themes/astrahobbes
