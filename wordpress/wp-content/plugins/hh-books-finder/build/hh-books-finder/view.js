@@ -45,28 +45,58 @@ function App(props) {
   const paginatedBooks = sortedBooks.slice(startIndex, startIndex + booksPerPage);
   const totalPages = Math.ceil(sortedBooks.length / booksPerPage);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+    className: "book-finder",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h3", {
       children: "Book Finder"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
-      type: "text",
-      placeholder: "Search books...",
-      value: searchTerm,
-      onChange: e => {
-        setSearchTerm(e.target.value);
-        setCurrentPage(1);
-      }
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+      children: "Type in a keyword from the title you are looking for."
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      className: "book-controls",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
+        type: "text",
+        placeholder: "Search books...",
+        value: searchTerm,
+        onChange: e => {
+          setSearchTerm(e.target.value);
+          setCurrentPage(1);
+        }
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+        className: "book-sort-buttons",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+          type: "button",
+          onClick: () => {
+            setSortOrder("asc");
+            setCurrentPage(1);
+          },
+          disabled: sortOrder === "asc",
+          children: "A\u2013Z"
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+          type: "button",
+          onClick: () => {
+            setSortOrder("desc");
+            setCurrentPage(1);
+          },
+          disabled: sortOrder === "desc",
+          children: "Z\u2013A"
+        })]
+      })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("p", {
       children: ["Showing ", paginatedBooks.length, " books"]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_BookList__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }), loading ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+      children: "Loading books..."
+    }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_BookList__WEBPACK_IMPORTED_MODULE_1__["default"], {
       items: paginatedBooks
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      className: "book-pagination",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+        type: "button",
         onClick: () => setCurrentPage(currentPage - 1),
         disabled: currentPage === 1,
         children: "Previous"
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("span", {
-        children: [" Page ", currentPage, " of ", totalPages, " "]
+        children: ["Page ", currentPage, " of ", totalPages]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+        type: "button",
         onClick: () => setCurrentPage(currentPage + 1),
         disabled: currentPage === totalPages,
         children: "Next"
@@ -99,16 +129,38 @@ function BookCard(props) {
   if (book._embedded && book._embedded["wp:featuredmedia"] && book._embedded["wp:featuredmedia"][0]) {
     image = book._embedded["wp:featuredmedia"][0].source_url;
   }
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-    className: "book-card",
-    children: [image && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
-      src: image,
-      alt: book.title.rendered,
-      className: "book-card__image"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
-      className: "book-card__title",
-      children: book.title.rendered
-    })]
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    className: "book-card hh-panel",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+      className: "book-card__grid",
+      children: [image && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+        className: "book-card__media",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("img", {
+          src: image,
+          alt: book.title.rendered,
+          className: "book-card__image book-cover"
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        className: "book-card__content",
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("h3", {
+          className: "book-card__title",
+          dangerouslySetInnerHTML: {
+            __html: book.title.rendered
+          }
+        }), book.excerpt?.rendered && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+          className: "book-card__excerpt",
+          dangerouslySetInnerHTML: {
+            __html: book.excerpt.rendered
+          }
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("p", {
+          className: "book-card__readmore",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+            href: book.link,
+            children: "View Book"
+          })
+        })]
+      })]
+    })
   });
 }
 

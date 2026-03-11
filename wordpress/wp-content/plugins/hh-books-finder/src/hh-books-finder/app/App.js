@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import BookList from "./components/BookList";
 
 export default function App(props) {
-
 	let [books, setBooks] = useState([]);
 	let [searchTerm, setSearchTerm] = useState("");
 	let [sortOrder, setSortOrder] = useState("asc");
@@ -37,32 +36,67 @@ export default function App(props) {
 	const totalPages = Math.ceil(sortedBooks.length / booksPerPage);
 
 	return (
-		<div>
+		<div className="book-finder">
 			<h3>Book Finder</h3>
+			<p>Type in a keyword from the title you are looking for.</p>
 
-			<input
-				type="text"
-				placeholder="Search books..."
-				value={searchTerm}
-				onChange={(e) => {
-					setSearchTerm(e.target.value);
-					setCurrentPage(1);
-				}}
-			/>
+			<div className="book-controls">
+				<input
+					type="text"
+					placeholder="Search books..."
+					value={searchTerm}
+					onChange={(e) => {
+						setSearchTerm(e.target.value);
+						setCurrentPage(1);
+					}}
+				/>
+
+				<div className="book-sort-buttons">
+					<button
+						type="button"
+						onClick={() => {
+							setSortOrder("asc");
+							setCurrentPage(1);
+						}}
+						disabled={sortOrder === "asc"}
+					>
+						A–Z
+					</button>
+
+					<button
+						type="button"
+						onClick={() => {
+							setSortOrder("desc");
+							setCurrentPage(1);
+						}}
+						disabled={sortOrder === "desc"}
+					>
+						Z–A
+					</button>
+				</div>
+			</div>
 
 			<p>Showing {paginatedBooks.length} books</p>
-			<BookList items={paginatedBooks} />
-			<div>
+
+			{loading ? (
+				<p>Loading books...</p>
+			) : (
+				<BookList items={paginatedBooks} />
+			)}
+
+			<div className="book-pagination">
 				<button
+					type="button"
 					onClick={() => setCurrentPage(currentPage - 1)}
 					disabled={currentPage === 1}
 				>
 					Previous
 				</button>
 
-				<span> Page {currentPage} of {totalPages} </span>
+				<span>Page {currentPage} of {totalPages}</span>
 
 				<button
+					type="button"
 					onClick={() => setCurrentPage(currentPage + 1)}
 					disabled={currentPage === totalPages}
 				>

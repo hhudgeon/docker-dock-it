@@ -1,7 +1,6 @@
 import React from "react";
 
 export default function BookCard(props) {
-
 	let book = props.item;
 
 	let image = "";
@@ -15,16 +14,36 @@ export default function BookCard(props) {
 	}
 
 	return (
-		<div className="book-card">
-			{image && (
-				<img
-					src={image}
-					alt={book.title.rendered}
-					className="book-card__image"
-				/>
-			)}
+		<div className="book-card hh-panel">
+			<div className="book-card__grid">
+				{image && (
+					<div className="book-card__media">
+						<img
+							src={image}
+							alt={book.title.rendered}
+							className="book-card__image book-cover"
+						/>
+					</div>
+				)}
 
-			<h3 className="book-card__title">{book.title.rendered}</h3>
+				<div className="book-card__content">
+					<h3
+						className="book-card__title"
+						dangerouslySetInnerHTML={{ __html: book.title.rendered }}
+					/>
+
+					{book.excerpt?.rendered && (
+						<div
+							className="book-card__excerpt"
+							dangerouslySetInnerHTML={{ __html: book.excerpt.rendered }}
+						/>
+					)}
+
+					<p className="book-card__readmore">
+						<a href={book.link}>View Book</a>
+					</p>
+				</div>
+			</div>
 		</div>
 	);
 }
