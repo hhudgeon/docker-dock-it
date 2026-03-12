@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import BookList from "./components/BookList";
+import SearchBar from "./components/SearchBar";
+import SortControls from "./components/SortControls";
+
 
 export default function App(props) {
 	let [books, setBooks] = useState([]);
@@ -36,39 +39,17 @@ export default function App(props) {
 			<p>Type in a keyword from the title you are looking for.</p>
 
 			<div className="book-controls">
-				<input
-					type="text"
-					placeholder="Search books..."
-					value={searchTerm}
-					onChange={(e) => {
-						setSearchTerm(e.target.value);
-						setCurrentPage(1);
-					}}
+				<SearchBar
+					searchTerm={searchTerm}
+					setSearchTerm={setSearchTerm}
+					setCurrentPage={setCurrentPage}
 				/>
 
-				<div className="book-sort-buttons">
-					<button
-						type="button"
-						onClick={() => {
-							setSortOrder("asc");
-							setCurrentPage(1);
-						}}
-						disabled={sortOrder === "asc"}
-					>
-						A–Z
-					</button>
-
-					<button
-						type="button"
-						onClick={() => {
-							setSortOrder("desc");
-							setCurrentPage(1);
-						}}
-						disabled={sortOrder === "desc"}
-					>
-						Z–A
-					</button>
-				</div>
+				<SortControls
+					sortOrder={sortOrder}
+					setSortOrder={setSortOrder}
+					setCurrentPage={setCurrentPage}
+				/>
 			</div>
 
 			<p>Showing {books.length} books</p>
