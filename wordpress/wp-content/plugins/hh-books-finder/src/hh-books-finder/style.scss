@@ -1,0 +1,26 @@
+/* ===========================
+   BOOK FINDER LOADER
+   =========================== */
+
+.wp-block-create-block-hh-books-finder .book-loader {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 40px 0;
+	gap: 12px;
+}
+
+.wp-block-create-block-hh-books-finder .book-loader__spinner {
+	width: 32px;
+	height: 32px;
+	border: 4px solid #ddd;
+	border-top: 4px solid var(--accent);
+	border-radius: 50%;
+	animation: bookSpin 0.8s linear infinite;
+}
+
+@keyframes bookSpin {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(360deg); }
+}

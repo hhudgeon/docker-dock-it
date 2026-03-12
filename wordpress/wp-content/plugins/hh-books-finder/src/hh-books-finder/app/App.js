@@ -55,7 +55,10 @@ export default function App(props) {
 			<p>Showing {books.length} books</p>
 
 			{loading ? (
-				<p>Loading books...</p>
+				<div className="book-loader">
+					<div className="book-loader__spinner"></div>
+					<p>Loading books...</p>
+				</div>
 			) : (
 				<BookList items={books} />
 			)}

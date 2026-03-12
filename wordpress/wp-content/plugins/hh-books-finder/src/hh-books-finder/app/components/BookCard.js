@@ -32,10 +32,10 @@ export default function BookCard(props) {
 						dangerouslySetInnerHTML={{ __html: book.title.rendered }}
 					/>
 
-					{book.excerpt?.rendered && (
+					{book.content?.rendered && (
 						<div
 							className="book-card__excerpt"
-							dangerouslySetInnerHTML={{ __html: book.excerpt.rendered }}
+							dangerouslySetInnerHTML={{ __html: book.content.rendered }}
 						/>
 					)}
 
